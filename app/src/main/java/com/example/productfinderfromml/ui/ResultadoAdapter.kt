@@ -32,7 +32,7 @@ import com.example.productfinderfromml.databinding.TragosRowBinding
 /**
  * Adapter for the list of repositories.
  */
-class RespuestaAdapter(private val context: Context) : PagingDataAdapter<Resultado, RespuestaAdapter.PlayersViewHolder>(
+class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resultado, ResultadoAdapter.PlayersViewHolder>(
 PlayersDiffCallback()
 ) {
 
@@ -64,6 +64,7 @@ PlayersDiffCallback()
             binding.let {
                 if (data != null) {
                     it.txtTitulo.text = data.title
+                    it.txtDescripcion.text = data.id
 
                     Glide.with(context)
                         .load(data.thumbnail)

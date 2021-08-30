@@ -6,7 +6,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.productfinderfromml.core.Resource
 import com.example.productfinderfromml.data.model.Resultado
-import com.example.productfinderfromml.data.remote.CatPagingSource
+import com.example.productfinderfromml.data.remote.PagingSource
 import com.example.productfinderfromml.data.remote.NetworkDataSource
 import com.example.productfinderfromml.data.remote.WebService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
@@ -54,21 +54,19 @@ class DefaultRepository @Inject constructor(
 
 
     @ExperimentalPagingApi
-    override fun getSearchResultStream(pQuery: String): Flow<PagingData<Resultado>> {
-        val query = "%${pQuery.replace(' ', '%')}%"
+    override fun getSearchResultStream(query: String): Flow<PagingData<Resultado>> {
 
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
-                maxSize = NETWORK_PAGE_SIZE + (NETWORK_PAGE_SIZE * 2),
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { CatPagingSource(webService, query) }
+            pagingSourceFactory = { PagingSource(webService, "%${query.replace(' ', '%')}%") }
         ).flow
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 10
+        const val NETWORK_PAGE_SIZE = 3
     }
 
     /*override suspend fun saveFavoriteCocktail(cocktail: Cocktail) {

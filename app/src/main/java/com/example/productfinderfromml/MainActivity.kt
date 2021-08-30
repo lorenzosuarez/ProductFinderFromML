@@ -8,7 +8,8 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.productfinderfromml.databinding.ActivityMainBinding
 import com.example.productfinderfromml.presentation.MainViewModel
-import com.example.productfinderfromml.ui.RespuestaAdapter
+import com.example.productfinderfromml.ui.ReposLoadStateAdapter
+import com.example.productfinderfromml.ui.ResultadoAdapter
 import com.example.productfinderfromml.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(){
     private val viewModel by viewModels<MainViewModel>()
-    lateinit var mainPagingAdapter: RespuestaAdapter
+    lateinit var mainPagingAdapter: ResultadoAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,10 +29,15 @@ class MainActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         /****** NUEVO PAGIN ****/
-        mainPagingAdapter = RespuestaAdapter(this)
+        mainPagingAdapter = ResultadoAdapter(this)
         val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
         binding.rvTragos.addItemDecoration(decoration)
         binding.rvTragos.adapter = mainPagingAdapter
+
+        /*binding.rvTragos.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = ReposLoadStateAdapter { adapter.retry() },
+            footer = ReposLoadStateAdapter { adapter.retry() }
+        )*/
 
 
         binding.searchView.onQueryTextChanged {

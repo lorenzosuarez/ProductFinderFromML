@@ -25,7 +25,6 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<Resultado>>? = null
-    //private val currentCocktailName = savedStateHandle.getLiveData<String>("cocktailName", "margarita")
 
     /*val fetchCocktailList = currentCocktailName.distinctUntilChanged().switchMap { cocktailName ->
         liveData(viewModelScope.coroutineContext + Dispatchers.IO) {

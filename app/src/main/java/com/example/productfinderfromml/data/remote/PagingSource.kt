@@ -9,16 +9,15 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import retrofit2.HttpException
 import java.io.IOException
 
-const val STARTING_PAGE_INDEX = 1
+const val STARTING_PAGE_INDEX = 0
 
 @ExperimentalPagingApi
-class CatPagingSource(private val service: WebService, private val query: String) : PagingSource<Int, Resultado>() {
-
+class PagingSource(private val service: WebService, private val query: String) : PagingSource<Int, Resultado>() {
 
     @ExperimentalCoroutinesApi
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Resultado> {
         val position = params.key ?: STARTING_PAGE_INDEX
-        val offset = if (params.key != null) ((position - 1) * NETWORK_PAGE_SIZE) + 1 else STARTING_PAGE_INDEX
+        val offset = if (params.key != null)  ((((position - 1) * NETWORK_PAGE_SIZE) ) - NETWORK_PAGE_SIZE ) else STARTING_PAGE_INDEX
 
         return try {
             val response = service.searchProduct(query = query, offset = offset , limit = NETWORK_PAGE_SIZE)
