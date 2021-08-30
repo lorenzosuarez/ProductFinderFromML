@@ -25,15 +25,17 @@ import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bumptech.glide.Glide
+import com.example.productfinderfromml.R
 import com.example.productfinderfromml.data.model.Resultado
-import com.example.productfinderfromml.databinding.TragosRowBinding
+import com.example.productfinderfromml.databinding.ItemRowBinding
 
 /**
  * Adapter for the list of repositories.
  */
 class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resultado, ResultadoAdapter.PlayersViewHolder>(
-PlayersDiffCallback()
+    PlayersDiffCallback()
 ) {
 
 
@@ -48,7 +50,7 @@ PlayersDiffCallback()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersViewHolder {
 
         return PlayersViewHolder(
-            TragosRowBinding.inflate(
+            ItemRowBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
         )
@@ -56,20 +58,24 @@ PlayersDiffCallback()
     }
 
     inner class PlayersViewHolder(
-        private val binding: TragosRowBinding
+        private val binding: ItemRowBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Resultado?) {
 
             binding.let {
                 if (data != null) {
-                    it.txtTitulo.text = data.title
-                    it.txtDescripcion.text = data.id
+                    it.title.text = data.title
+                    it.price.text = data.price.toString()
 
-                    Glide.with(context)
+                    it.image.load(data.thumbnail) {
+                        placeholder(R.drawable.ic_launcher_background)
+                    }
+
+                    /*Glide.with(context)
                         .load(data.thumbnail)
                         .centerCrop()
-                        .into(it.imgCocktail)
+                        .into(it.image)*/
                 }
             }
 

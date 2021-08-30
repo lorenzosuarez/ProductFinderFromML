@@ -27,6 +27,7 @@ data class Respuesta(
 data class Resultado(
     @SerializedName("id") val id: String,
     @SerializedName("site_id") val siteId: String,
+    @SerializedName("price") val price: Double,
     @SerializedName("title") val title: String,
     @SerializedName("thumbnail") val thumbnail: String
 )

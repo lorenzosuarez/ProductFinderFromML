@@ -6,15 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.productfinderfromml.databinding.ActivityMainBinding
 import com.example.productfinderfromml.presentation.MainViewModel
-import com.example.productfinderfromml.ui.ReposLoadStateAdapter
 import com.example.productfinderfromml.ui.ResultadoAdapter
 import com.example.productfinderfromml.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+
 
 @ExperimentalPagingApi
 @AndroidEntryPoint
@@ -25,13 +27,16 @@ class MainActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        val binding =  ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        /****** NUEVO PAGIN ****/
         mainPagingAdapter = ResultadoAdapter(this)
-        val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        binding.rvTragos.addItemDecoration(decoration)
+
+        binding.rvTragos.apply {
+            layoutManager = GridLayoutManager(context, 2)
+        }
+        //val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+       // binding.rvTragos.addItemDecoration(decoration)
         binding.rvTragos.adapter = mainPagingAdapter
 
         /*binding.rvTragos.adapter = adapter.withLoadStateHeaderAndFooter(
@@ -39,6 +44,7 @@ class MainActivity : AppCompatActivity(){
             footer = ReposLoadStateAdapter { adapter.retry() }
         )*/
 
+        search("motorola")
 
         binding.searchView.onQueryTextChanged {
             search(it)

@@ -13,8 +13,8 @@ import com.example.productfinderfromml.data.model.Resultado
  * View Holder for a [Repo] RecyclerView list item.
  */
 class ResultadoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-    private val name: TextView = view.findViewById(R.id.txt_titulo)
-    private val description: TextView = view.findViewById(R.id.txt_descripcion)
+    private val name: TextView = view.findViewById(R.id.title)
+    private val description: TextView = view.findViewById(R.id.price)
 
     private var repo: Resultado? = null
 
@@ -68,7 +68,7 @@ class ResultadoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     companion object {
         fun create(parent: ViewGroup): ResultadoViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.tragos_row, parent, false)
+                .inflate(R.layout.item_row, parent, false)
             return ResultadoViewHolder(view)
         }
     }
