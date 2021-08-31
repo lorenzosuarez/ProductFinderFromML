@@ -61,12 +61,10 @@ data class Eshop(
     val eshopExperience: Int,
     @SerializedName("eshop_id")
     val eshopId: Int,
-    @SerializedName("eshop_locations")
-    val eshopLocations: List<String>,
     @SerializedName("eshop_logo_url")
     val eshopLogoUrl: String,
     @SerializedName("eshop_rubro")
-    val eshopRubro: String?,
+    val eshopRubro: EshopRubro?,
     @SerializedName("eshop_status_id")
     val eshopStatusId: Int,
     @SerializedName("nick_name")
@@ -131,4 +129,14 @@ data class Transactions(
     val ratings: Ratings,
     @SerializedName("total")
     val total: Int
+) : Parcelable
+
+@Parcelize
+data class EshopRubro(
+    @SerializedName("category_id")
+    val categoryId: String,
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("name")
+    val name: String
 ) : Parcelable

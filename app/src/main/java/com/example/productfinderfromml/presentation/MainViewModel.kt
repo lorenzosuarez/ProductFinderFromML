@@ -41,11 +41,11 @@ class MainViewModel @Inject constructor(
 
 
     fun searchRepo(queryString: String): Flow<PagingData<Resultado>> {
-        /*val lastResult = currentSearchResult
+        val lastResult = currentSearchResult
         if (queryString == currentQueryValue && lastResult != null) {
             return lastResult
-        }*/
-        //currentQueryValue = queryString
+        }
+        currentQueryValue = queryString
         val newResult: Flow<PagingData<Resultado>> = repository.getSearchResultStream(queryString)
             .cachedIn(viewModelScope)
         currentSearchResult = newResult

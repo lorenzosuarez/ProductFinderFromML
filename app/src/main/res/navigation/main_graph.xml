@@ -32,6 +32,11 @@
             android:name="item"
             app:argType="com.example.productfinderfromml.data.model.Resultado"
             app:nullable="false" />
+
+        <action
+            android:id="@+id/action_detailsFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <!--

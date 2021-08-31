@@ -44,7 +44,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         searchJob?.cancel()
         searchJob = lifecycleScope.launch {
             viewModel.searchRepo(query).collectLatest {
-                mainPagingAdapter.submitData(lifecycle, it)
+                //binding.result.text = it.toString()
+                mainPagingAdapter.submitData(it)
             }
         }
     }
@@ -60,10 +61,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.lifecycleOwner = this
 
-
-
-
-
         mainPagingAdapter = ResultadoAdapter(context = requireContext(), ResultadoAdapter.OnClickListener { item, imageView ->
             val extras = FragmentNavigatorExtras(
                 imageView to item.id
@@ -73,8 +70,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         })
 
         binding.items.adapter = mainPagingAdapter
-
-        search("motorola")
 
         binding.searchView.onQueryTextChanged {
             search(it)

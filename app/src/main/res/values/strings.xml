@@ -2,4 +2,5 @@
     <string name="app_name">ProductFinderFromML</string>
     <string name="free_shipping">Envio gratis</string>
     <string name="product_detail">Detalle del producto</string>
+    <string name="without_results">SIN RESULTADOS</string>
 </resources>

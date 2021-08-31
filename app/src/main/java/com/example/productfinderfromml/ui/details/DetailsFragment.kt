@@ -49,7 +49,6 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
         binding = FragmentDetailsBinding.bind(view)
         //binding.item = itemReceived
-
         binding.image.transitionName = itemReceived.id
         binding.image.load(itemReceived.thumbnail)
     }

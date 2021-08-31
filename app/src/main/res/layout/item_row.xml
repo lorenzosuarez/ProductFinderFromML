@@ -81,7 +81,7 @@
                     android:fontFamily="@font/nunito_sans_bold"
                     android:text="Title title tiele tiele tiele tiele tiele "
                     android:textAlignment="textStart"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
