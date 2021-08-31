@@ -1,8 +1,10 @@
 package com.example.productfinderfromml.data.model
 
 
+import android.os.Parcelable
 import com.example.productfinderfromml.data.model.Seller
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class Respuesta(
     @SerializedName("available_filters")
@@ -25,6 +27,7 @@ data class Respuesta(
     val sort: Sort
 )
 
+@Parcelize
 data class Resultado(
     @SerializedName("id") val id: String,
     @SerializedName("site_id") val siteId: String,
@@ -33,4 +36,4 @@ data class Resultado(
     @SerializedName("thumbnail") val thumbnail: String,
     @SerializedName("seller") val seller: Seller,
     @SerializedName("shipping") val shipping: Shipping
-)
+) : Parcelable

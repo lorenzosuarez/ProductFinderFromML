@@ -1,8 +1,11 @@
 package com.example.productfinderfromml.data.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Seller(
     @SerializedName("car_dealer")
     val carDealer: Boolean,
@@ -20,8 +23,9 @@ data class Seller(
     val sellerReputation: SellerReputation,
     @SerializedName("tags")
     val tags: List<String>
-)
+) : Parcelable
 
+@Parcelize
 data class Cancellations(
     @SerializedName("period")
     val period: String,
@@ -29,8 +33,9 @@ data class Cancellations(
     val rate: Double,
     @SerializedName("value")
     val value: Int
-)
+) : Parcelable
 
+@Parcelize
 data class Claims(
     @SerializedName("period")
     val period: String,
@@ -38,8 +43,9 @@ data class Claims(
     val rate: Double,
     @SerializedName("value")
     val value: Int
-)
+) : Parcelable
 
+@Parcelize
 data class DelayedHandlingTime(
     @SerializedName("period")
     val period: String,
@@ -47,19 +53,20 @@ data class DelayedHandlingTime(
     val rate: Double,
     @SerializedName("value")
     val value: Int
-)
+) : Parcelable
 
+@Parcelize
 data class Eshop(
     @SerializedName("eshop_experience")
     val eshopExperience: Int,
     @SerializedName("eshop_id")
     val eshopId: Int,
     @SerializedName("eshop_locations")
-    val eshopLocations: List<Any>,
+    val eshopLocations: List<String>,
     @SerializedName("eshop_logo_url")
     val eshopLogoUrl: String,
     @SerializedName("eshop_rubro")
-    val eshopRubro: Any,
+    val eshopRubro: String?,
     @SerializedName("eshop_status_id")
     val eshopStatusId: Int,
     @SerializedName("nick_name")
@@ -68,8 +75,9 @@ data class Eshop(
     val seller: Int,
     @SerializedName("site_id")
     val siteId: String
-)
+) : Parcelable
 
+@Parcelize
 data class Metrics(
     @SerializedName("cancellations")
     val cancellations: Cancellations,
@@ -79,8 +87,9 @@ data class Metrics(
     val delayedHandlingTime: DelayedHandlingTime,
     @SerializedName("sales")
     val sales: Sales
-)
+) : Parcelable
 
+@Parcelize
 data class Ratings(
     @SerializedName("negative")
     val negative: Double,
@@ -88,15 +97,17 @@ data class Ratings(
     val neutral: Double,
     @SerializedName("positive")
     val positive: Double
-)
+) : Parcelable
 
+@Parcelize
 data class Sales(
     @SerializedName("completed")
     val completed: Int,
     @SerializedName("period")
     val period: String
-)
+) : Parcelable
 
+@Parcelize
 data class SellerReputation(
     @SerializedName("level_id")
     val levelId: String,
@@ -106,8 +117,9 @@ data class SellerReputation(
     val powerSellerStatus: String,
     @SerializedName("transactions")
     val transactions: Transactions
-)
+) : Parcelable
 
+@Parcelize
 data class Transactions(
     @SerializedName("canceled")
     val canceled: Int,
@@ -119,4 +131,4 @@ data class Transactions(
     val ratings: Ratings,
     @SerializedName("total")
     val total: Int
-)
+) : Parcelable

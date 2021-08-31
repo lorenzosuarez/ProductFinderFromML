@@ -2,10 +2,13 @@ package com.example.productfinderfromml.ui
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.FragmentNavigatorExtras
+import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.databinding.FragmentMainBinding
@@ -57,7 +60,18 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         binding.lifecycleOwner = this
 
-        mainPagingAdapter = ResultadoAdapter(context = requireContext())
+
+
+
+
+        mainPagingAdapter = ResultadoAdapter(context = requireContext(), ResultadoAdapter.OnClickListener { item, imageView ->
+            val extras = FragmentNavigatorExtras(
+                imageView to item.id
+            )
+            val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(item = item)
+            findNavController().navigate(action, extras)
+        })
+
         binding.items.adapter = mainPagingAdapter
 
         search("motorola")

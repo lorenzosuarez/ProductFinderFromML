@@ -21,13 +21,12 @@ package com.example.productfinderfromml.ui
  */
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import com.bumptech.glide.Glide
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.data.model.Resultado
 import com.example.productfinderfromml.databinding.ItemRowBinding
@@ -37,22 +36,23 @@ import java.text.DecimalFormat
 /**
  * Adapter for the list of repositories.
  */
-class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resultado, ResultadoAdapter.PlayersViewHolder>(
-    PlayersDiffCallback()
+class ResultadoAdapter(private val context: Context, private val onClickListener: OnClickListener) : PagingDataAdapter<Resultado, ResultadoAdapter.ItemsViewHolder>(
+    ItemsDiffCallback()
 ) {
 
 
-    override fun onBindViewHolder(holder: PlayersViewHolder, position: Int) {
-
+    override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
         val data = getItem(position)
-
-        holder.bind(data)
-
+        holder.bind(data, onClickListener, context)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlayersViewHolder {
+    class OnClickListener(val clickListener: (item: Resultado, image : ImageView) -> Unit) {
+        fun onClick(item: Resultado, image: ImageView) = clickListener(item, image)
+    }
 
-        return PlayersViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
+
+        return ItemsViewHolder(
             ItemRowBinding.inflate(
                 LayoutInflater.from(parent.context), parent, false
             )
@@ -60,21 +60,26 @@ class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resulta
 
     }
 
-    inner class PlayersViewHolder(
+    inner class ItemsViewHolder(
         private val binding: ItemRowBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Resultado?) {
+        fun bind(data: Resultado?, onClickListener: OnClickListener, context: Context) {
             val dec = DecimalFormat("#,###.##")
 
-            binding.let {
+            binding.let { item ->
                 if (data != null) {
-                    it.title.text = if (data.title.trim().length > 100) "${data.title.trim().substring(0..80)}..." else data.title.trim()
-                    it.price.text =  "$${dec.format(data.price)}"
-                    it.sellerNickname.text = data.seller.eshop?.nickName
-                    it.freeShipping.showIf { data.shipping.freeShipping }
-                    it.image.load(data.thumbnail) {
+                    item.image.transitionName = data.id
+                    item.title.text = if (data.title.trim().length > 100) "${data.title.trim().substring(0..80)}..." else data.title.trim()
+                    item.price.text = "$${dec.format(data.price)}"
+                    item.sellerNickname.text = data.seller.eshop?.nickName
+                    item.freeShipping.showIf { data.shipping.freeShipping }
+                    item.image.load(data.thumbnail) {
                         placeholder(R.drawable.ic_launcher_background)
+                    }
+
+                    binding.card.setOnClickListener {
+                        onClickListener.onClick(data, item.image)
                     }
 
                     /*Glide.with(context)
@@ -84,10 +89,11 @@ class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resulta
                 }
             }
 
+
         }
     }
 
-    private class PlayersDiffCallback : DiffUtil.ItemCallback<Resultado>() {
+    private class ItemsDiffCallback : DiffUtil.ItemCallback<Resultado>() {
         override fun areItemsTheSame(oldItem: Resultado, newItem: Resultado): Boolean {
             return oldItem.id == newItem.id
         }

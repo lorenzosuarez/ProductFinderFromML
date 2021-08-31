@@ -1,8 +1,11 @@
 package com.example.productfinderfromml.data.model
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Shipping(
     @SerializedName("free_shipping")
     val freeShipping: Boolean,
@@ -14,4 +17,4 @@ data class Shipping(
     val storePickUp: Boolean,
     @SerializedName("tags")
     val tags: List<String>
-)
+) : Parcelable

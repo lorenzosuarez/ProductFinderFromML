@@ -12,18 +12,12 @@
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
-            app:destination="@id/detailsFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right">
-            <!--<argument
-                android:name="title"
-                app:argType="string" />
+            app:destination="@id/detailsFragment">
+
             <argument
                 android:name="item"
-                app:argType="com.example.starwarscharacters.data.model.Item"
-                app:nullable="false" />-->
+                app:argType="com.example.productfinderfromml.data.model.Resultado"
+                app:nullable="false" />
 
         </action>
     </fragment>
@@ -31,11 +25,20 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.productfinderfromml.ui.details.DetailsFragment"
+        android:label="@string/product_detail"
         tools:layout="@layout/fragment_details">
-        <!--<argument
+
+        <argument
             android:name="item"
-            app:argType="com.example.starwarscharacters.data.model.Item"
-            app:nullable="false" />-->
+            app:argType="com.example.productfinderfromml.data.model.Resultado"
+            app:nullable="false" />
     </fragment>
+
+    <!--
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+    -->
 
 </navigation>
