@@ -1,6 +1,7 @@
 package com.example.productfinderfromml.data.model
 
 
+import com.example.productfinderfromml.data.model.Seller
 import com.google.gson.annotations.SerializedName
 
 data class Respuesta(
@@ -29,5 +30,7 @@ data class Resultado(
     @SerializedName("site_id") val siteId: String,
     @SerializedName("price") val price: Double,
     @SerializedName("title") val title: String,
-    @SerializedName("thumbnail") val thumbnail: String
+    @SerializedName("thumbnail") val thumbnail: String,
+    @SerializedName("seller") val seller: Seller,
+    @SerializedName("shipping") val shipping: Shipping
 )

@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity(){
 
         mainPagingAdapter = ResultadoAdapter(this)
 
-        binding.rvTragos.apply {
-            layoutManager = GridLayoutManager(context, 2)
-        }
+        /*binding.items.apply {
+            layoutManager = GridLayoutManager(context, 1)
+        }*/
         //val decoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-       // binding.rvTragos.addItemDecoration(decoration)
-        binding.rvTragos.adapter = mainPagingAdapter
+       // binding.items.addItemDecoration(decoration)
+        binding.items.adapter = mainPagingAdapter
 
-        /*binding.rvTragos.adapter = adapter.withLoadStateHeaderAndFooter(
+        /*binding.items.adapter = adapter.withLoadStateHeaderAndFooter(
             header = ReposLoadStateAdapter { adapter.retry() },
             footer = ReposLoadStateAdapter { adapter.retry() }
         )*/

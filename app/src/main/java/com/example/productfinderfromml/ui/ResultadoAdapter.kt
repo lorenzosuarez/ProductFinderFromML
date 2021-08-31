@@ -21,6 +21,7 @@ package com.example.productfinderfromml.ui
  */
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
@@ -30,6 +31,8 @@ import com.bumptech.glide.Glide
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.data.model.Resultado
 import com.example.productfinderfromml.databinding.ItemRowBinding
+import com.example.productfinderfromml.utils.showIf
+import java.text.DecimalFormat
 
 /**
  * Adapter for the list of repositories.
@@ -62,12 +65,14 @@ class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resulta
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(data: Resultado?) {
+            val dec = DecimalFormat("#,###.##")
 
             binding.let {
                 if (data != null) {
-                    it.title.text = data.title
-                    it.price.text = data.price.toString()
-
+                    it.title.text = data.title.trim()
+                    it.price.text =  "$${dec.format(data.price)}"
+                    it.sellerNickname.text = data.seller.eshop?.nickName
+                    it.freeShipping.showIf { data.shipping.freeShipping }
                     it.image.load(data.thumbnail) {
                         placeholder(R.drawable.ic_launcher_background)
                     }

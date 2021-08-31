@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">ProductFinderFromML</string>
+    <string name="free_shipping">Envio gratis</string>
 </resources>
