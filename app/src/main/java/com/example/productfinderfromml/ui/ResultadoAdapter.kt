@@ -69,7 +69,7 @@ class ResultadoAdapter(private val context: Context) : PagingDataAdapter<Resulta
 
             binding.let {
                 if (data != null) {
-                    it.title.text = data.title.trim()
+                    it.title.text = if (data.title.trim().length > 100) "${data.title.trim().substring(0..80)}..." else data.title.trim()
                     it.price.text =  "$${dec.format(data.price)}"
                     it.sellerNickname.text = data.seller.eshop?.nickName
                     it.freeShipping.showIf { data.shipping.freeShipping }

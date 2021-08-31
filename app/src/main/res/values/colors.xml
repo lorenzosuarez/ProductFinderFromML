@@ -8,4 +8,6 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#9FD364</color>
+    <color name="boxStroke">#80E2E2E3</color>
+    <color name="searchBackground">#f8f8f8</color>
 </resources>

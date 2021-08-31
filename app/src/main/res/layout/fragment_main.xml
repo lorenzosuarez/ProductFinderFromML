@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.03" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.97" />
+
+        <androidx.appcompat.widget.SearchView
+            android:layout_margin="5dp"
+            android:id="@+id/searchView"
+            android:layout_width="0dp"
+            android:layout_height="50sp"
+            android:theme="@style/SearchViewStyle"
+            app:queryBackground="@android:color/transparent"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_corner_view"
+            android:backgroundTint="@color/boxStroke"
+            android:fontFamily="@font/nunito_sans_regular"
+            android:hint="string/search_persons"
+            android:imeOptions="actionDone|flagNoExtractUi"
+            android:inputType="textCapWords"
+            android:padding="5dp"
+            android:textColor="@color/teal_200"
+            android:textColorHint="@color/teal_700"
+            android:textSize="12sp"
+            app:endIconMode="clear_text"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/items"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/searchView"
+            tools:listitem="@layout/item_row" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

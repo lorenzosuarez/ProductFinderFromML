@@ -15,4 +15,5 @@
     <dimen name="text_size_large">30sp</dimen>
     <dimen name="text_size_normal">20sp</dimen>
     <dimen name="text_size_small">10sp</dimen>
+    <dimen name="search_radius">10dp</dimen>
 </resources>
