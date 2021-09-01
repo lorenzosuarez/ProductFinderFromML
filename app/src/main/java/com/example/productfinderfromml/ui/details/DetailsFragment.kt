@@ -9,7 +9,10 @@ import androidx.transition.TransitionInflater
 import coil.load
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.data.model.Resultado
+import com.example.productfinderfromml.data.model.detail.Picture
 import com.example.productfinderfromml.databinding.FragmentDetailsBinding
+import com.example.productfinderfromml.ui.details.viewpager.CarouselTransformer
+import com.example.productfinderfromml.ui.details.viewpager.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -45,12 +48,21 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val itemReceived : Resultado = args.item
+        val itemReceived: Resultado = args.item
 
         binding = FragmentDetailsBinding.bind(view)
-        //binding.item = itemReceived
         binding.image.transitionName = itemReceived.id
         binding.image.load(itemReceived.thumbnail)
+
+        val listPictures = mutableListOf<Picture>().apply {
+            add(Picture(url = "http://http2.mlstatic.com/D_819940-MLA31003080242_062019-O.jpg"))
+            add(Picture(url = "http://http2.mlstatic.com/D_780684-MLA31003091231_062019-O.jpg"))
+        }
+        binding.viewPager.adapter = ViewPagerAdapter(listPictures)
+        binding.viewPager.offscreenPageLimit = 1
+        binding.viewPager.setPageTransformer(CarouselTransformer(requireContext()))
+
+        //binding.carousel.setData(list)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

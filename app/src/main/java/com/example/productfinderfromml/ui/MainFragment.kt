@@ -74,6 +74,8 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.searchView.onQueryTextChanged {
             search(it)
         }
+
+        search("motorola")
     }
 
 
