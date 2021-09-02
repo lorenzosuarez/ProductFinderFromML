@@ -1,6 +1,7 @@
 package com.example.productfinderfromml.presentation
 
 import androidx.lifecycle.*
+import com.example.productfinderfromml.R
 import com.example.productfinderfromml.core.Resource
 import com.example.productfinderfromml.data.model.detail.Picture
 import com.example.productfinderfromml.data.model.detail.ProductDetail
@@ -44,5 +45,18 @@ class DetailViewModel @Inject constructor(
 
     fun updatePictures(pictures: List<Picture>) {
         _pictures.value = pictures
+    }
+
+    enum class Status {
+        STATUS1,
+        STATUS2,
+    }
+
+    private var _status = MutableLiveData(Status.STATUS1)
+    val status: LiveData<Status>
+        get() = _status
+
+    fun setStatus(status: Status) {
+        _status.value = status
     }
 }

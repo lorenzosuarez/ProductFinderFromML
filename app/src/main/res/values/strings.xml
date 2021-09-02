@@ -4,4 +4,5 @@
     <string name="product_detail">Detalle del producto</string>
     <string name="without_results">SIN RESULTADOS</string>
     <string name="seller_nickname">VENDEDOR</string>
+    <string name="unknown">unknow</string>
 </resources>

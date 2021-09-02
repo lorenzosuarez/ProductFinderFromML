@@ -111,5 +111,5 @@ data class Body(
     @SerializedName("warnings")
     val warnings: List<Any>,
     @SerializedName("warranty")
-    val warranty: String
+    val warranty: String = ""
 )

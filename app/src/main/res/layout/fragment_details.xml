@@ -11,6 +11,10 @@
             name="viewModel"
             type="com.example.productfinderfromml.presentation.DetailViewModel" />
 
+        <variable
+            name="productDetail"
+            type="com.example.productfinderfromml.data.model.detail.ProductDetail" />
+
     </data>
 
     <ScrollView
@@ -21,13 +25,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/startGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.02" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/endGuideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.98" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerHead"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintVertical_bias="0"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/mcvImage"
@@ -57,19 +77,179 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_small"
+                    android:maxLines="2"
+                    android:text="TITULO TITULO TITULO TITULO TITULO TITULO TITULO TITULO"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/mcvImage"
+                    app:layout_constraintTop_toTopOf="@+id/mcvImage"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:id="@+id/quantityAndSold"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_small"
+                    android:maxLines="1"
+                    android:text="cant | vendidos"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@+id/mcvImage"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:id="@+id/sellerNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/margin_small"
+                    android:maxLines="1"
+                    android:text="cant | vendidos"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@+id/quantityAndSold"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:id="@+id/freeShipping"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_corner_view"
+                    android:backgroundTint="@color/green"
+                    android:padding="4.5dp"
+                    android:text="@string/free_shipping"
+                    android:textColor="@color/white"
+                    android:textSize="11sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/title"
+                    app:layout_constraintHorizontal_bias="1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintVertical_bias="0" />
+
+                <TextView
+                    android:id="@+id/price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margin_small"
+                    android:fontFamily="@font/nunito_sans_semi_bold"
+                    android:maxLines="1"
+                    android:text="$122215"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toStartOf="@+id/quantityAndSold"
+                    app:layout_constraintTop_toBottomOf="@+id/quantityAndSold"
+                    app:layout_constraintVertical_bias="0" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
+                android:id="@+id/viewPager"
+                android:layout_width="0dp"
                 android:layout_height="250dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
                 app:layout_constraintTop_toBottomOf="@+id/containerHead"
+                app:layout_constraintVertical_bias="0"
                 app:listData="@{viewModel.pictures}"
                 tools:listitem="@layout/item_row" />
 
+            <HorizontalScrollView
+                android:id="@+id/containerBottom"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/viewPager"
+                app:layout_constraintVertical_bias="0.">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/margin_extra_small">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCharacters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:text="@{productDetail.body.warranty}"
+                        android:textAlignment="center"
+                        android:visibility="@{productDetail.body.warranty.empty ? View.GONE : View.VISIBLE}"
+                        app:chipIcon="@drawable/ic_warranty" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/races"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:text="string/race"
+                        android:textAlignment="center"
+                        app:chipIcon="@drawable/ic_place" />
+
+                </com.google.android.material.chip.ChipGroup>
+
+            </HorizontalScrollView>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/containerBottom">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/button"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:backgroundTint="#f2f5f8"
+                    android:drawableEnd="@drawable/ic_down"
+                    android:insetTop="0dp"
+                    android:drawableTint="@color/teal_700"
+                    android:insetBottom="0dp"
+                    android:stateListAnimator="@null"
+                    android:translationZ="10dp"
+                    android:text="string/create_league"
+                    android:textColor="@color/teal_700"
+                    app:changeIcon="@{viewModel.status}"
+                    app:elevation="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/linear"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0" />
+
+                <LinearLayout
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:orientation="vertical"
+                    app:layout_constraintVertical_bias="0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/button" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
