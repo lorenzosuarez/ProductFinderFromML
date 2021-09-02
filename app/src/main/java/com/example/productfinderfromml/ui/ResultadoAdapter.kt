@@ -8,6 +8,8 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import coil.request.ImageRequest
+import coil.request.ImageResult
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.data.model.Resultado
 import com.example.productfinderfromml.databinding.ItemRowBinding
@@ -53,9 +55,16 @@ class ResultadoAdapter(private val context: Context, private val onClickListener
                         price.text = "$${dec.format(data.price)}"
                         "${context.getString(R.string.seller_nickname)} : ${data.seller.eshop?.nickName}".also {
                             sellerNickname.text = it
-                            sellerNickname.showIf { data.seller.eshop?.nickName.isNullOrEmpty().not() } }
+                            sellerNickname.showIf { data.seller.eshop?.nickName.isNullOrEmpty().not() }
+                        }
                         freeShipping.showIf { data.shipping.freeShipping }
-                        image.load(data.thumbnail) { placeholder(R.drawable.ic_launcher_background) }
+                        image.load(data.thumbnail) {
+                            listener(onSuccess = { _: ImageRequest, _: ImageResult.Metadata ->
+                                binding.shimmer.hideShimmer()
+                            })
+
+                            placeholder(R.color.shimmer_placeholder)
+                        }
                         card.setOnClickListener { onClickListener.onClick(data, item.image) }
                     }
 

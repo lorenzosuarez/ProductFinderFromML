@@ -3,246 +3,116 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/margin_normal"
-            android:layout_marginVertical="@dimen/margin_small"
-            android:padding="@dimen/margin_small"
-            app:cardCornerRadius="@dimen/common_radius"
-            app:cardElevation="@dimen/common_elevation">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/mcvImage"
-                    app:strokeWidth="0.3dp"
-                    android:padding="1dp"
-                    app:strokeColor="@color/teal_700"
-                    app:cardBackgroundColor="@color/white"
-                    android:layout_width="@dimen/home_image_size"
-                    android:layout_height="@dimen/home_image_size"
-                    android:layout_margin="@dimen/margin_normal"
-                    app:cardCornerRadius="@dimen/common_radius"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/image"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@mipmap/ic_launcher"
-                        tools:ignore="ContentDescription" />
-
-                </com.google.android.material.card.MaterialCardView>
-
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="0dp"
-                    android:fontFamily="@font/nunito_sans_regular"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="@dimen/margin_normal"
-                    android:maxLines="2"
-                    android:textSize="@dimen/text_size_normal"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/price"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/mcvImage"
-                    app:layout_constraintTop_toTopOf="@+id/mcvImage"
-                    tools:text="Loading.." />
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="@dimen/margin_normal"
-                    android:ellipsize="end"
-                    android:textSize="15sp"
-                    android:fontFamily="@font/nunito_sans_semi_bold"
-                    app:layout_constraintBottom_toBottomOf="@+id/mcvImage"
-                    app:layout_constraintEnd_toStartOf="@+id/sellerNickname"
-                    app:layout_constraintStart_toStartOf="@+id/title"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
-                    tools:text="Loading" />
-
-                <TextView
-                    android:id="@+id/sellerNickname"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_sans_regular"
-                    android:textAlignment="textStart"
-                    android:textSize="7sp"
-                    app:layout_constraintBottom_toBottomOf="@+id/price"
-                    app:layout_constraintEnd_toEndOf="@+id/title"
-                    app:layout_constraintStart_toEndOf="@+id/price"
-                    app:layout_constraintTop_toTopOf="@+id/price"
-                    app:layout_constraintVertical_bias="0.5"
-                    tools:ignore="SmallSp" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <TextView
-            android:layout_marginEnd="@dimen/margin_small"
-            android:translationZ="50dp"
-            android:id="@+id/freeShipping"
-            android:textColor="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_corner_view"
-            android:backgroundTint="@color/green"
-            android:padding="4.5dp"
-            android:textSize="11sp"
-            android:text="@string/free_shipping"
-            app:layout_anchor="@id/card"
-            app:layout_anchorGravity="end|top" />
-
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <!-- <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card"
-        android:layout_width="match_parent"
-        android:layout_height="190dp"
-        app:cardCornerRadius="14dp"
-        app:cardElevation="8dp"
-        app:cardUseCompatPadding="true">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/topGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.05" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/startGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.03" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/endGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                app:layout_constraintGuide_percent="0.97" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/bottomGuideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.95" />
+            android:layout_height="wrap_content">
 
             <com.google.android.material.card.MaterialCardView
-                app:cardElevation="0dp"
-                android:id="@+id/cardView"
-                app:strokeWidth="0.3dp"
-                app:strokeColor="@color/teal_700"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white"
-                app:layout_constraintBottom_toBottomOf="@id/bottomGuideline"
-                app:layout_constraintStart_toStartOf="@id/startGuideline"
-                app:layout_constraintTop_toTopOf="@id/topGuideline">
+                android:id="@+id/card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/margin_normal"
+                android:layout_marginVertical="@dimen/margin_small"
+                android:padding="@dimen/margin_small"
+                app:cardCornerRadius="@dimen/common_radius"
+                app:cardElevation="@dimen/common_elevation">
 
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="90dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:contentDescription="asd" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/mcvImage"
+                        android:layout_width="@dimen/home_image_size"
+                        android:layout_height="@dimen/home_image_size"
+                        android:layout_margin="@dimen/margin_normal"
+                        android:padding="1dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="@dimen/common_radius"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/teal_700"
+                        app:strokeWidth="0.3dp">
+
+                        <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@mipmap/ic_launcher"
+                            tools:ignore="ContentDescription" />
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <TextView
+                        android:id="@+id/title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/margin_normal"
+                        android:fontFamily="@font/nunito_sans_regular"
+                        android:maxLines="2"
+                        android:textSize="@dimen/text_size_normal"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/price"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/mcvImage"
+                        app:layout_constraintTop_toTopOf="@+id/mcvImage"
+                        tools:text="Loading.." />
+
+                    <TextView
+                        android:id="@+id/price"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/margin_normal"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/nunito_sans_semi_bold"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/mcvImage"
+                        app:layout_constraintEnd_toStartOf="@+id/sellerNickname"
+                        app:layout_constraintStart_toStartOf="@+id/title"
+                        app:layout_constraintTop_toBottomOf="@+id/title"
+                        tools:text="Loading" />
+
+                    <TextView
+                        android:id="@+id/sellerNickname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nunito_sans_regular"
+                        android:textAlignment="textStart"
+                        android:textSize="7sp"
+                        app:layout_constraintBottom_toBottomOf="@+id/price"
+                        app:layout_constraintEnd_toEndOf="@+id/title"
+                        app:layout_constraintStart_toEndOf="@+id/price"
+                        app:layout_constraintTop_toTopOf="@+id/price"
+                        app:layout_constraintVertical_bias="0.5"
+                        tools:ignore="SmallSp" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                app:layout_constraintBottom_toTopOf="@+id/bottomGuideline"
-                app:layout_constraintEnd_toStartOf="@+id/endGuideline"
-                app:layout_constraintStart_toEndOf="@+id/cardView"
-                app:layout_constraintTop_toTopOf="@+id/topGuideline">
+            <TextView
+                android:id="@+id/freeShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:background="@drawable/rounded_corner_view"
+                android:backgroundTint="@color/green"
+                android:padding="4.5dp"
+                android:text="@string/free_shipping"
+                android:textColor="@color/white"
+                android:textSize="11sp"
+                android:translationZ="50dp"
+                app:layout_anchor="@id/card"
+                app:layout_anchorGravity="end|top" />
 
-                <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_sans_bold"
-                    android:text="Title title tiele tiele tiele tiele tiele "
-                    android:textAlignment="textStart"
-                    android:textSize="14sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0" />
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-                <TextView
-                    android:id="@+id/sellerNickname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_sans_semi_bold"
-                    android:textAlignment="textStart"
-                    android:textSize="10sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
-                    app:layout_constraintVertical_bias="0.01" />
-
-                <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/nunito_sans_extra_bold"
-                    android:text="$112222"
-                    android:textAlignment="center"
-                    android:textSize="20sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/sellerNickname"
-                    app:layout_constraintVertical_bias="0" />
-
-                <TextView
-                    android:visibility="invisible"
-                    android:id="@+id/freeShipping"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/rounded_corner_view"
-                    android:padding="5dp"
-                    android:textSize="10sp"
-                    android:backgroundTint="@color/green"
-                    android:text="@string/free_shipping"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.90" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </com.google.android.material.card.MaterialCardView> -->
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
 </layout>

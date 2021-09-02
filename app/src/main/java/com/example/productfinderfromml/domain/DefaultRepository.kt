@@ -53,29 +53,6 @@ class DefaultRepository @Inject constructor(
             awaitClose { cancel() }
         }
 
-    override suspend fun getProductDetail(ids: String): Flow<Resource<List<ProductDetail>>> =
-        callbackFlow {
-
-            //offer(getCachedCocktails(cocktailName))
-
-            networkDataSource.getProductDetail(ids).collect {
-                when (it) {
-                    is Resource.Success -> {
-                        /*for (cocktail in it.data) {
-                            saveCocktail(cocktail.asCocktailEntity())
-                        }*/
-                        //offer(getCachedCocktails(cocktailName))
-                        offer(it)
-                    }
-                    is Resource.Failure -> {
-                        //offer(getCachedCocktails(cocktailName))
-                    }
-                }
-            }
-            awaitClose { cancel() }
-        }
-
-
 
     @ExperimentalPagingApi
     override fun getSearchResultStream(query: String): Flow<PagingData<Resultado>> {
@@ -89,6 +66,9 @@ class DefaultRepository @Inject constructor(
         ).flow
     }
 
+    override suspend fun getProductDetail(ids: String): Resource<List<ProductDetail>> {
+        return Resource.Success(webService.productDetail(ids))
+    }
 
     companion object {
         const val NETWORK_PAGE_SIZE = 3

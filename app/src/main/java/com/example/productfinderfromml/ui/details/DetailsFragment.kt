@@ -3,14 +3,24 @@ package com.example.productfinderfromml.ui.details
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
 import androidx.paging.ExperimentalPagingApi
 import androidx.transition.TransitionInflater
 import coil.load
 import com.example.productfinderfromml.R
+import com.example.productfinderfromml.core.Resource
 import com.example.productfinderfromml.data.model.Resultado
 import com.example.productfinderfromml.data.model.detail.Picture
+import com.example.productfinderfromml.data.model.detail.ProductDetail
 import com.example.productfinderfromml.databinding.FragmentDetailsBinding
+import com.example.productfinderfromml.databinding.FragmentMainBinding
+import com.example.productfinderfromml.presentation.DetailViewModel
+import com.example.productfinderfromml.presentation.MainViewModel
+import com.example.productfinderfromml.ui.ResultadoAdapter
 import com.example.productfinderfromml.ui.details.viewpager.CarouselTransformer
 import com.example.productfinderfromml.ui.details.viewpager.ViewPagerAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -25,6 +35,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
+    private val viewModel by viewModels<DetailViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,16 +64,55 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         binding = FragmentDetailsBinding.bind(view)
         binding.image.transitionName = itemReceived.id
         binding.image.load(itemReceived.thumbnail)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
+        binding.viewPager.adapter = ViewPagerAdapter()
 
-        val listPictures = mutableListOf<Picture>().apply {
-            add(Picture(url = "http://http2.mlstatic.com/D_819940-MLA31003080242_062019-O.jpg"))
-            add(Picture(url = "http://http2.mlstatic.com/D_780684-MLA31003091231_062019-O.jpg"))
+
+        viewModel.getProductDetail(arrayOf(itemReceived.id))
+
+
+        viewModel.productDetail.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    val a = 2
+                }
+                is Resource.Success -> {
+                    /*if (result.data. != 200) {
+                        //binding.rvList.hide()
+                        return@Observer
+                    }*/
+                    val a = 2
+                    viewModel.updatePictures(result.data.first().body.pictures)
+                }
+                is Resource.Failure -> {
+                    val a = 2
+                }
+            }
         }
-        binding.viewPager.adapter = ViewPagerAdapter(listPictures)
+
         binding.viewPager.offscreenPageLimit = 1
         binding.viewPager.setPageTransformer(CarouselTransformer(requireContext()))
 
         //binding.carousel.setData(list)
+    }
+
+    private val productDetailObserver = Observer<Resource<ProductDetail>> { result ->
+        when (result) {
+            is Resource.Loading -> {
+
+            }
+            is Resource.Success -> {
+                if (result.data.code != 200) {
+                    //binding.rvList.hide()
+                    return@Observer
+                }
+                //viewModel.updatePictures(result.data.body.pictures)
+            }
+            is Resource.Failure -> {
+
+            }
+        }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {

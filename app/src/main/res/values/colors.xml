@@ -10,4 +10,5 @@
     <color name="green">#9FD364</color>
     <color name="boxStroke">#80E2E2E3</color>
     <color name="searchBackground">#f8f8f8</color>
+    <color name="shimmer_placeholder">#dddddd</color>
 </resources>

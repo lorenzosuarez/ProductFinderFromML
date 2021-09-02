@@ -6,6 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="50dp"
+        android:padding="2dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/common_radius"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.01"
+        app:strokeColor="@color/teal_700"
+        app:strokeWidth="0.3dp"
         android:elevation="5dp">
 
         <ImageView
