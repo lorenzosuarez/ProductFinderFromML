@@ -40,30 +40,40 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_percent="0.97" />
 
-                <androidx.appcompat.widget.SearchView
-                    app:layout_constraintVertical_bias="0"
-                    android:id="@+id/searchView"
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/searchContainer"
+                    app:strokeWidth="0.45dp"
+                    app:strokeColor="@color/teal_700"
+                    app:cardCornerRadius="@dimen/common_radius"
                     android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/rounded_corner_view"
-                    android:backgroundTint="@color/boxStroke"
-                    android:fontFamily="@font/nunito_sans_regular"
-                    android:hint="string/search_persons"
-                    android:imeOptions="actionSearch"
-                    android:inputType="textCapWords"
-                    android:padding="5dp"
-                    android:textColor="@color/teal_200"
-                    android:textColorHint="@color/teal_700"
-                    android:textSize="12sp"
-                    android:theme="@style/SearchViewStyle"
-                    app:closeIcon="@drawable/ic_cancel"
-                    app:endIconMode="clear_text"
+                    android:layout_height="wrap_content"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/endGuideline"
                     app:layout_constraintStart_toStartOf="@id/startGuideline"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:queryBackground="@android:color/transparent" />
+                    app:layout_constraintVertical_bias="0.1"
+                    android:layout_margin="5dp">
+
+                    <androidx.appcompat.widget.SearchView
+                        app:layout_constraintVertical_bias="0"
+                        android:id="@+id/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:backgroundTint="@android:color/transparent"
+                        android:fontFamily="@font/nunito_sans_regular"
+                        android:hint="string/search_persons"
+                        android:imeOptions="actionSearch"
+                        android:inputType="textCapWords"
+                        android:padding="5dp"
+                        android:textColor="@color/teal_200"
+                        android:textSize="12sp"
+                        android:theme="@style/SearchViewStyle"
+                        app:closeIcon="@drawable/ic_cancel"
+                        app:endIconMode="clear_text"
+                        app:queryBackground="@android:color/transparent" />
+
+                </com.google.android.material.card.MaterialCardView>
+
 
                 <TextView
                     android:layout_marginTop="5dp"
@@ -77,8 +87,8 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
-                    app:layout_constraintStart_toStartOf="@id/searchView"
-                    app:layout_constraintTop_toBottomOf="@+id/searchView"
+                    app:layout_constraintStart_toStartOf="@id/searchContainer"
+                    app:layout_constraintTop_toBottomOf="@+id/searchContainer"
                     app:layout_constraintVertical_bias="0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

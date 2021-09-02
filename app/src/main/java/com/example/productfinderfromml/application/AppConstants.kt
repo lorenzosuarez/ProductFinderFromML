@@ -6,7 +6,7 @@ package com.example.productfinderfromml.application
 object AppConstants {
 
     //API
-    const val BASE_URL = "https://api.mercadolibre.com/sites/MLA/"
+    const val BASE_URL = "https://api.mercadolibre.com/"
 
     //ROOM
     const val DATABASE_NAME = "cocktail_table"

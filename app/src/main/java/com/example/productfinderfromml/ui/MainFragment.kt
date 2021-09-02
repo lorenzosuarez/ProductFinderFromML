@@ -62,11 +62,13 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.lifecycleOwner = this
 
         mainPagingAdapter = ResultadoAdapter(context = requireContext(), ResultadoAdapter.OnClickListener { item, imageView ->
-            val extras = FragmentNavigatorExtras(
+            //viewModel.getProductDetail(arrayOf(item.id))
+
+            /*val extras = FragmentNavigatorExtras(
                 imageView to item.id
             )
             val action = MainFragmentDirections.actionMainFragmentToDetailsFragment(item = item)
-            findNavController().navigate(action, extras)
+            findNavController().navigate(action, extras)*/
         })
 
         binding.items.adapter = mainPagingAdapter

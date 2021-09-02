@@ -6,8 +6,9 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.productfinderfromml.core.Resource
 import com.example.productfinderfromml.data.model.Resultado
-import com.example.productfinderfromml.data.remote.PagingSource
+import com.example.productfinderfromml.data.model.detail.ProductDetail
 import com.example.productfinderfromml.data.remote.NetworkDataSource
+import com.example.productfinderfromml.data.remote.PagingSource
 import com.example.productfinderfromml.data.remote.WebService
 import dagger.hilt.android.scopes.ActivityRetainedScoped
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -52,6 +53,29 @@ class DefaultRepository @Inject constructor(
             awaitClose { cancel() }
         }
 
+    override suspend fun getProductDetail(ids: String): Flow<Resource<List<ProductDetail>>> =
+        callbackFlow {
+
+            //offer(getCachedCocktails(cocktailName))
+
+            networkDataSource.getProductDetail(ids).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        /*for (cocktail in it.data) {
+                            saveCocktail(cocktail.asCocktailEntity())
+                        }*/
+                        //offer(getCachedCocktails(cocktailName))
+                        offer(it)
+                    }
+                    is Resource.Failure -> {
+                        //offer(getCachedCocktails(cocktailName))
+                    }
+                }
+            }
+            awaitClose { cancel() }
+        }
+
+
 
     @ExperimentalPagingApi
     override fun getSearchResultStream(query: String): Flow<PagingData<Resultado>> {
@@ -64,6 +88,7 @@ class DefaultRepository @Inject constructor(
             pagingSourceFactory = { PagingSource(webService, "%${query.replace(' ', '%')}%") }
         ).flow
     }
+
 
     companion object {
         const val NETWORK_PAGE_SIZE = 3

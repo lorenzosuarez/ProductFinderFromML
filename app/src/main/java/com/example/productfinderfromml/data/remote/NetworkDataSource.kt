@@ -2,6 +2,7 @@ package com.example.productfinderfromml.data.remote
 
 import com.example.productfinderfromml.core.Resource
 import com.example.productfinderfromml.data.model.Resultado
+import com.example.productfinderfromml.data.model.detail.ProductDetail
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +21,16 @@ class NetworkDataSource @Inject constructor(
             offer(
                 Resource.Success(
                     webService.searchProduct(query).results
+                )
+            )
+            awaitClose { close() }
+        }
+
+    suspend fun getProductDetail(ids: String): Flow<Resource<List<ProductDetail>>> =
+        callbackFlow {
+            offer(
+                Resource.Success(
+                    webService.productDetail(ids)
                 )
             )
             awaitClose { close() }

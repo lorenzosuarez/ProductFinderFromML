@@ -51,7 +51,9 @@ class ResultadoAdapter(private val context: Context, private val onClickListener
                         image.transitionName = data.id
                         title.text = if (data.title.trim().length > 100) "${data.title.trim().substring(0..80)}..." else data.title.trim()
                         price.text = "$${dec.format(data.price)}"
-                        sellerNickname.text = data.seller.eshop?.nickName
+                        "${context.getString(R.string.seller_nickname)} : ${data.seller.eshop?.nickName}".also {
+                            sellerNickname.text = it
+                            sellerNickname.showIf { data.seller.eshop?.nickName.isNullOrEmpty().not() } }
                         freeShipping.showIf { data.shipping.freeShipping }
                         image.load(data.thumbnail) { placeholder(R.drawable.ic_launcher_background) }
                         card.setOnClickListener { onClickListener.onClick(data, item.image) }

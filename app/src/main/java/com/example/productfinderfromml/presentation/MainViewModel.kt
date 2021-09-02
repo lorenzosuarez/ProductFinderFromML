@@ -1,15 +1,18 @@
 package com.example.productfinderfromml.presentation
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.productfinderfromml.application.ToastHelper
+import com.example.productfinderfromml.core.Resource
 import com.example.productfinderfromml.data.model.Resultado
+import com.example.productfinderfromml.data.model.detail.ProductDetail
 import com.example.productfinderfromml.domain.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -25,19 +28,11 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
     private var currentQueryValue: String? = null
     private var currentSearchResult: Flow<PagingData<Resultado>>? = null
+    private val _productDetail = MutableLiveData<Resource<List<ProductDetail>>>()
+    val productDetail: LiveData<Resource<List<ProductDetail>>>
+        get() = _productDetail
 
-    /*val fetchCocktailList = currentCocktailName.distinctUntilChanged().switchMap { cocktailName ->
-        liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(Resource.Loading)
-            try {
-                repository.getCocktailByName(cocktailName).collect {
-                    emit(it)
-                }
-            } catch (e: Exception) {
-                emit(Resource.Failure(e))
-            }
-        }
-    }*/
+
 
 
     fun searchRepo(queryString: String): Flow<PagingData<Resultado>> {
@@ -51,6 +46,28 @@ class MainViewModel @Inject constructor(
         currentSearchResult = newResult
         return newResult
     }
+    private val ids = arrayListOf("asdasd", "asdsad")
+
+    /*val getProductDetail =
+        liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
+            emit(Resource.Loading)
+            try {
+                repository.getProductDetail(ids.joinToString(separator = ",")).collect {
+                    emit(it)
+                }
+            } catch (e: Exception) {
+                emit(Resource.Failure(e))
+            }
+        }*/
+
+        /*viewModelScope.launch {
+            _productDetail.value = Resource.Loading
+            try {
+                _productDetail.value = repository.getProductDetail(ids.joinToString(separator = ","))
+            } catch (e: Exception) {
+                _productDetail.value = Resource.Failure(e)
+            }
+        }*/
 
 /*
     fun saveOrDeleteFavoriteCocktail(cocktail: Cocktail) {

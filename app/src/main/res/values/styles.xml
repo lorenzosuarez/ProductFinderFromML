@@ -6,7 +6,7 @@
         <item name="queryBackground">@android:color/transparent</item>
         <item name="queryHint">"search_hint"</item>
         <item name="iconifiedByDefault">false</item>
-        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColorHint">@color/teal_700</item>
         <item name="android:background">@drawable/rounded_corner_view</item>
     </style>
 
