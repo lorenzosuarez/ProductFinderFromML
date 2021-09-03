@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextUtils" />
+
         <variable
             name="viewModel"
             type="com.example.productfinderfromml.presentation.DetailViewModel" />
@@ -14,6 +16,10 @@
         <variable
             name="productDetail"
             type="com.example.productfinderfromml.data.model.detail.ProductDetail" />
+
+        <variable
+            name="item"
+            type="com.example.productfinderfromml.data.model.item.Results" />
 
     </data>
 
@@ -68,12 +74,12 @@
                         android:id="@+id/image"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:transitionName="@{item.id}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.1" />
-
 
                 </com.google.android.material.card.MaterialCardView>
 
@@ -83,7 +89,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_small"
                     android:maxLines="2"
-                    android:text="TITULO TITULO TITULO TITULO TITULO TITULO TITULO TITULO"
+                    android:text="@{item.title.trim()}"
+                    android:textSize="18sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/mcvImage"
@@ -96,14 +103,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_small"
                     android:maxLines="1"
-                    android:text="cant | vendidos"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@+id/mcvImage"
                     app:layout_constraintTop_toBottomOf="@+id/title"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0"
+                    app:setTextCondition="@{productDetail.body.condition}" />
 
                 <TextView
                     android:id="@+id/sellerNickname"
@@ -111,14 +118,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/margin_small"
                     android:maxLines="1"
-                    android:text="cant | vendidos"
-                    android:textSize="10sp"
+                    android:textSize="@dimen/text_size_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@+id/quantityAndSold"
                     app:layout_constraintTop_toBottomOf="@+id/title"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0"
+                    app:setTextSellerNickname="@{item.seller}" />
 
                 <TextView
                     android:id="@+id/freeShipping"
@@ -126,15 +133,16 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/rounded_corner_view"
                     android:backgroundTint="@color/green"
-                    android:padding="4.5dp"
+                    android:padding="@dimen/margin_medium"
                     android:text="@string/free_shipping"
                     android:textColor="@color/white"
-                    android:textSize="11sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:textSize="@dimen/text_size_small"
+                    android:visibility="@{item.shipping.freeShipping ? View.VISIBLE : View.GONE}"
+                    app:layout_constraintBottom_toBottomOf="@+id/originalPrice"
                     app:layout_constraintEnd_toEndOf="@+id/title"
                     app:layout_constraintHorizontal_bias="1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/title"
+                    app:layout_constraintStart_toEndOf="@+id/originalPrice"
+                    app:layout_constraintTop_toTopOf="@+id/originalPrice"
                     app:layout_constraintVertical_bias="0" />
 
                 <TextView
@@ -144,28 +152,53 @@
                     android:layout_marginVertical="@dimen/margin_small"
                     android:fontFamily="@font/nunito_sans_semi_bold"
                     android:maxLines="1"
-                    android:text="$122215"
-                    android:textSize="15sp"
+                    android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toStartOf="@+id/quantityAndSold"
                     app:layout_constraintTop_toBottomOf="@+id/quantityAndSold"
-                    app:layout_constraintVertical_bias="0" />
+                    app:layout_constraintVertical_bias="0"
+                    app:setPrice="@{item.price}" />
+
+                <TextView
+                    android:id="@+id/originalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="@dimen/margin_small"
+                    android:layout_marginStart="@dimen/margin_extra_small"
+                    android:fontFamily="@font/nunito_sans_semi_bold"
+                    android:maxLines="1"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/price"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintStart_toEndOf="@+id/price"
+                    app:layout_constraintTop_toTopOf="@+id/price"
+                    app:layout_constraintVertical_bias="0.5"
+                    app:setOriginalPrice="@{productDetail}" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/viewPager"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
                 android:layout_width="0dp"
-                android:layout_height="250dp"
+                app:shimmer_auto_start="true"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/endGuideline"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
                 app:layout_constraintTop_toBottomOf="@+id/containerHead"
-                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_bias="0">
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
                 app:listData="@{viewModel.pictures}"
                 tools:listitem="@layout/item_row" />
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <HorizontalScrollView
                 android:id="@+id/containerBottom"
@@ -174,7 +207,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/endGuideline"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
-                app:layout_constraintTop_toBottomOf="@+id/viewPager"
+                app:layout_constraintTop_toBottomOf="@+id/shimmer"
                 app:layout_constraintVertical_bias="0.">
 
                 <com.google.android.material.chip.ChipGroup
@@ -184,51 +217,55 @@
                     android:padding="@dimen/margin_extra_small">
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/chipCharacters"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
                         android:text="@{productDetail.body.warranty}"
                         android:textAlignment="center"
-                        android:visibility="@{productDetail.body.warranty.empty ? View.GONE : View.VISIBLE}"
-                        app:chipIcon="@drawable/ic_warranty" />
+                        android:visibility="@{ TextUtils.isEmpty(productDetail.body.warranty) ? View.GONE : View.VISIBLE}"
+                        app:chipIcon="@drawable/ic_warranty"
+                        app:chipIconTint="@color/teal_700" />
 
                     <com.google.android.material.chip.Chip
-                        android:id="@+id/races"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:clickable="false"
-                        android:text="string/race"
                         android:textAlignment="center"
-                        app:chipIcon="@drawable/ic_place" />
+                        android:visibility="gone"
+                        app:chipIcon="@drawable/ic_place"
+                        app:chipIconTint="@color/teal_700"
+                        app:setPlace="@{productDetail.body.sellerAddress}" />
 
                 </com.google.android.material.chip.ChipGroup>
 
             </HorizontalScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/parent"
+                android:id="@+id/containerAttributes"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@id/endGuideline"
                 app:layout_constraintStart_toStartOf="@id/startGuideline"
-                app:layout_constraintTop_toBottomOf="@+id/containerBottom">
+                app:layout_constraintTop_toBottomOf="@+id/containerBottom"
+                app:layout_constraintVertical_bias="0">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/button"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
-                    android:backgroundTint="#f2f5f8"
+                    android:backgroundTint="@color/blue"
                     android:drawableEnd="@drawable/ic_down"
+                    android:drawableTint="@color/white"
                     android:insetTop="0dp"
-                    android:drawableTint="@color/teal_700"
                     android:insetBottom="0dp"
+                    android:textAllCaps="false"
                     android:stateListAnimator="@null"
+                    android:text="@string/show_attributes"
+                    android:textColor="@color/white"
                     android:translationZ="10dp"
-                    android:text="string/create_league"
-                    android:textColor="@color/teal_700"
+                    android:visibility="@{productDetail.body.attributes.empty ? View.GONE : View.VISIBLE}"
                     app:changeIcon="@{viewModel.status}"
                     app:elevation="0dp"
                     app:layout_constraintBottom_toTopOf="@+id/linear"
@@ -243,13 +280,39 @@
                     android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
                     android:orientation="vertical"
-                    app:layout_constraintVertical_bias="0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button" />
+                    app:layout_constraintTop_toBottomOf="@+id/button"
+                    app:layout_constraintVertical_bias="0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/goToML"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                app:cardCornerRadius="@dimen/cardview_default_radius"
+                app:contentPadding="@dimen/margin_extra_small"
+                app:elevation="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/endGuideline"
+                app:layout_constraintStart_toStartOf="@id/startGuideline"
+                app:layout_constraintTop_toBottomOf="@+id/containerAttributes">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_vertical"
+                    android:gravity="center"
+                    android:text="@string/go_to_ml"
+                    android:textAlignment="center"
+                    app:drawableEndCompat="@drawable/ic_right"
+                    app:drawableTint="@color/teal_700" />
+
+            </com.google.android.material.card.MaterialCardView>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

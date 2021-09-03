@@ -1,19 +1,15 @@
 package com.example.productfinderfromml.utils
 
-import android.animation.AnimatorListenerAdapter
 import android.content.Context
-import android.transition.AutoTransition
-import android.transition.TransitionManager
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.TranslateAnimation
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.transition.Slide
 import androidx.transition.Transition
-import com.google.android.material.button.MaterialButton
+import java.text.DecimalFormat
 
 
 inline fun SearchView.onQueryTextChanged(crossinline onQueryTextChanged: (String) -> Unit) {
@@ -53,7 +49,6 @@ inline fun <T : View> T.hideIf(condition: (T) -> Boolean) {
     }
 }
 
-
 fun View.slideUp(viewGroup: ViewGroup, duration: Long = 600) {
     val transition: Transition = Slide(Gravity.TOP)
     transition.duration = duration
@@ -70,6 +65,7 @@ fun View.slideDown(viewGroup: ViewGroup, duration: Long = 600) {
     this.visibility = View.VISIBLE
 }
 
+fun Double.priceFormat(): String = DecimalFormat("#,###.##").format(this)
 
 fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()

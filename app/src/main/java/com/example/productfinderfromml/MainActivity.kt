@@ -1,26 +1,12 @@
 package com.example.productfinderfromml
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.inputmethod.EditorInfo
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import androidx.paging.ExperimentalPagingApi
-import androidx.recyclerview.widget.DividerItemDecoration
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.productfinderfromml.presentation.MainViewModel
-import com.example.productfinderfromml.ui.ResultadoAdapter
-import com.example.productfinderfromml.utils.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 
 @ExperimentalPagingApi

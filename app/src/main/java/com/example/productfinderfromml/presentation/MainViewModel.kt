@@ -3,16 +3,11 @@ package com.example.productfinderfromml.presentation
 import androidx.lifecycle.*
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.productfinderfromml.application.ToastHelper
-import com.example.productfinderfromml.core.Resource
-import com.example.productfinderfromml.data.model.Resultado
-import com.example.productfinderfromml.data.model.detail.ProductDetail
+import com.example.productfinderfromml.data.model.item.AvailableSort
+import com.example.productfinderfromml.data.model.item.Results
 import com.example.productfinderfromml.domain.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -21,84 +16,42 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val repository: Repository,
-    private val toastHelper: ToastHelper,
-    private val savedStateHandle: SavedStateHandle
+    private val repository: Repository
 
 ) : ViewModel() {
     private var currentQueryValue: String? = null
-    private var currentSearchResult: Flow<PagingData<Resultado>>? = null
-    private val _productDetail = MutableLiveData<Resource<List<ProductDetail>>>()
-    val productDetail: LiveData<Resource<List<ProductDetail>>>
-        get() = _productDetail
+    private var _currentSearchResult: Flow<PagingData<Results>>? = null
 
+    val currentSearchResult : LiveData<PagingData<Results>>?
+        get() = _currentSearchResult?.asLiveData()
 
+    private val _lastQuery = MutableLiveData<String>()
 
+    private val _sortList = MutableLiveData<List<Pair<AvailableSort, Boolean>>>()
+    val sortList: LiveData<List<Pair<AvailableSort, Boolean>>>
+        get() = _sortList
 
-    fun searchRepo(queryString: String): Flow<PagingData<Resultado>> {
-        val lastResult = currentSearchResult
-        if (queryString == currentQueryValue && lastResult != null) {
+    init {
+        val listPair = listOf(
+            AvailableSort(id = "relevance", name = "AAA precio") to true,
+            AvailableSort(id = "price_asc", name = "BBB precio") to false,
+            AvailableSort(id = "price_desc", name = "CCC precio") to false
+        )
+        _sortList.value = listPair
+    }
+
+    fun searchRepo(queryString: String? = _lastQuery.value, pSortName : String?): Flow<PagingData<Results>> {
+        val sortId = pSortName ?:  "relevance"
+        _lastQuery.value = queryString ?: ""
+
+        val lastResult = _currentSearchResult
+        if (queryString == currentQueryValue && lastResult != null && pSortName == null) {
             return lastResult
         }
         currentQueryValue = queryString
-        val newResult: Flow<PagingData<Resultado>> = repository.getSearchResultStream(queryString)
+        val newResult: Flow<PagingData<Results>> = repository.getSearchResultStream(_lastQuery.value!!, sortId)
             .cachedIn(viewModelScope)
-        currentSearchResult = newResult
+        _currentSearchResult = newResult
         return newResult
     }
-    private val ids = arrayListOf("asdasd", "asdsad")
-
-    /*val getProductDetail =
-        liveData(viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(Resource.Loading)
-            try {
-                repository.getProductDetail(ids.joinToString(separator = ",")).collect {
-                    emit(it)
-                }
-            } catch (e: Exception) {
-                emit(Resource.Failure(e))
-            }
-        }*/
-
-        /*viewModelScope.launch {
-            _productDetail.value = Resource.Loading
-            try {
-                _productDetail.value = repository.getProductDetail(ids.joinToString(separator = ","))
-            } catch (e: Exception) {
-                _productDetail.value = Resource.Failure(e)
-            }
-        }*/
-
-/*
-    fun saveOrDeleteFavoriteCocktail(cocktail: Cocktail) {
-        viewModelScope.launch {
-            if (repository.isCocktailFavorite(cocktail)) {
-                repository.deleteFavoriteCocktail(cocktail)
-                //toastHelper.sendToast("Cocktail deleted from favorites")
-            } else {
-                repository.saveFavoriteCocktail(cocktail)
-                //toastHelper.sendToast("Cocktail saved to favorites")
-            }
-        }
-    }
-
-    fun getFavoriteCocktails() =
-        liveData<Resource<List<Cocktail>>>(viewModelScope.coroutineContext + Dispatchers.IO) {
-            emit(Resource.Loading)
-            try {
-                emitSource(repository.getFavoritesCocktails().map { Resource.Success(it) })
-            } catch (e: Exception) {
-                emit(Resource.Failure(e))
-            }
-        }
-
-    fun deleteFavoriteCocktail(cocktail: Cocktail) {
-        viewModelScope.launch {
-            repository.deleteFavoriteCocktail(cocktail)
-            //toastHelper.sendToast("Cocktail deleted from favorites")
-        }
-    }
-
-    suspend fun isCocktailFavorite(cocktail: Cocktail): Boolean =
-        repository.isCocktailFavorite(cocktail)*/
 }

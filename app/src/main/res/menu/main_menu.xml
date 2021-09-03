@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/myGalacticLeague"
-        android:icon="@drawable/ic_filter"
+        android:icon="@drawable/ic_sort"
         android:title="string/my_galactic_league"
         app:showAsAction="always" />
 

@@ -9,5 +9,8 @@ object AppConstants {
     const val BASE_URL = "https://api.mercadolibre.com/"
 
     //ROOM
-    const val DATABASE_NAME = "cocktail_table"
+    const val DATABASE_NAME = "items_table"
+
+    //CURRENCY SYMBOL
+    const val SYMBOL = "\$"
 }

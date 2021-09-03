@@ -3,6 +3,13 @@
     <string name="free_shipping">Envio gratis</string>
     <string name="product_detail">Detalle del producto</string>
     <string name="without_results">SIN RESULTADOS</string>
-    <string name="seller_nickname">VENDEDOR</string>
+    <string name="seller">VENDEDOR</string>
     <string name="unknown">unknow</string>
+    <string name="go_to_ml">Ir a publicacion</string>
+    <string name="new_">Nuevo</string>
+    <string name="used">Usado</string>
+    <string name="sold_quantity">Vendidos</string>
+    <string name="apply">Aplicar</string>
+    <string name="sort_by">Ordenar por:</string>
+    <string name="show_attributes">Mostrar característica</string>
 </resources>

@@ -16,7 +16,7 @@
 
             <argument
                 android:name="item"
-                app:argType="com.example.productfinderfromml.data.model.Resultado"
+                app:argType="com.example.productfinderfromml.data.model.item.Results"
                 app:nullable="false" />
 
         </action>
@@ -30,7 +30,7 @@
 
         <argument
             android:name="item"
-            app:argType="com.example.productfinderfromml.data.model.Resultado"
+            app:argType="com.example.productfinderfromml.data.model.item.Results"
             app:nullable="false" />
 
         <action

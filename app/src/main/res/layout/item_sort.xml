@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:focusable="true"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="0dp"
+        app:cardElevation="0dp">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:padding="@dimen/margin_small">
+
+            <TextView
+                android:id="@+id/sortName"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="start|center_vertical"
+                android:fontFamily="@font/nunito_sans_regular"
+                android:gravity="start|center_vertical"
+                android:textSize="@dimen/text_size_normal" />
+
+            <RadioButton
+                android:id="@+id/sortRadio"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_vertical|end"
+                android:checked="false"
+                android:clickable="false"
+                android:focusable="false"
+                android:gravity="center"
+                android:layoutDirection="rtl" />
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

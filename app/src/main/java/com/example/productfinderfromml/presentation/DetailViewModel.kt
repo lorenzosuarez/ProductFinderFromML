@@ -28,11 +28,6 @@ class DetailViewModel @Inject constructor(
     val pictures: LiveData<List<Picture>>
         get() = _pictures
 
-    val picturesTemp: List<Picture> = mutableListOf(
-        Picture(url = "http://http2.mlstatic.com/D_819940-MLA31003080242_062019-O.jpg"),
-        Picture(url = "http://http2.mlstatic.com/D_780684-MLA31003091231_062019-O.jpg")
-    )
-
     fun getProductDetail(ids: Array<String>) =
         viewModelScope.launch {
             _productDetail.value = Resource.Loading

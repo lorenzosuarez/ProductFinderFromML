@@ -1,5 +1,6 @@
 package com.example.productfinderfromml.ui
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -11,24 +12,24 @@ import coil.load
 import coil.request.ImageRequest
 import coil.request.ImageResult
 import com.example.productfinderfromml.R
-import com.example.productfinderfromml.data.model.Resultado
+import com.example.productfinderfromml.application.AppConstants
+import com.example.productfinderfromml.data.model.item.Results
 import com.example.productfinderfromml.databinding.ItemRowBinding
+import com.example.productfinderfromml.utils.priceFormat
 import com.example.productfinderfromml.utils.showIf
-import java.text.DecimalFormat
 
-class ResultadoAdapter(private val context: Context, private val onClickListener: OnClickListener) :
-    PagingDataAdapter<Resultado, ResultadoAdapter.ItemsViewHolder>(
+class ResultAdapter(private val context: Context, private val onClickListener: OnClickListener) :
+    PagingDataAdapter<Results, ResultAdapter.ItemsViewHolder>(
         ItemsDiffCallback()
     ) {
-
 
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
         val data = getItem(position)
         holder.bind(data, onClickListener, context)
     }
 
-    class OnClickListener(val clickListener: (item: Resultado, image: ImageView) -> Unit) {
-        fun onClick(item: Resultado, image: ImageView) = clickListener(item, image)
+    class OnClickListener(val clickListener: (item: Results, image: ImageView) -> Unit) {
+        fun onClick(item: Results, image: ImageView) = clickListener(item, image)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsViewHolder {
@@ -44,16 +45,16 @@ class ResultadoAdapter(private val context: Context, private val onClickListener
         private val binding: ItemRowBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(data: Resultado?, onClickListener: OnClickListener, context: Context) {
-            val dec = DecimalFormat("#,###.##")
+        @SuppressLint("SetTextI18n")
+        fun bind(data: Results?, onClickListener: OnClickListener, context: Context) {
 
             binding.let { item ->
                 if (data != null) {
                     item.apply {
                         image.transitionName = data.id
                         title.text = if (data.title.trim().length > 100) "${data.title.trim().substring(0..80)}..." else data.title.trim()
-                        price.text = "$${dec.format(data.price)}"
-                        "${context.getString(R.string.seller_nickname)} : ${data.seller.eshop?.nickName}".also {
+                        price.text = """${AppConstants.SYMBOL}${data.price.priceFormat()}"""
+                        "${context.getString(R.string.seller)} : ${data.seller.eshop?.nickName}".also {
                             sellerNickname.text = it
                             sellerNickname.showIf { data.seller.eshop?.nickName.isNullOrEmpty().not() }
                         }
@@ -67,11 +68,6 @@ class ResultadoAdapter(private val context: Context, private val onClickListener
                         }
                         card.setOnClickListener { onClickListener.onClick(data, item.image) }
                     }
-
-                    /*Glide.with(context)
-                        .load(data.thumbnail)
-                        .centerCrop()
-                        .into(it.image)*/
                 }
             }
 
@@ -79,12 +75,12 @@ class ResultadoAdapter(private val context: Context, private val onClickListener
         }
     }
 
-    private class ItemsDiffCallback : DiffUtil.ItemCallback<Resultado>() {
-        override fun areItemsTheSame(oldItem: Resultado, newItem: Resultado): Boolean {
+    private class ItemsDiffCallback : DiffUtil.ItemCallback<Results>() {
+        override fun areItemsTheSame(oldItem: Results, newItem: Results): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Resultado, newItem: Resultado): Boolean {
+        override fun areContentsTheSame(oldItem: Results, newItem: Results): Boolean {
             return oldItem == newItem
         }
     }

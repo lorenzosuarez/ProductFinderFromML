@@ -47,6 +47,3 @@ class ViewPagerAdapter : ListAdapter<Picture, ViewPagerAdapter.PagerVH>(DiffCall
             oldItem.url == newItem.url
     }
 }
-
-
-//class PagerVH(itemView: View) : RecyclerView.ViewHolder(itemView)

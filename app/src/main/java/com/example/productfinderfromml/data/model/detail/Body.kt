@@ -13,7 +13,7 @@ data class Body(
     @SerializedName("available_quantity")
     val availableQuantity: Int,
     @SerializedName("base_price")
-    val basePrice: Int,
+    val basePrice: Double,
     @SerializedName("buying_mode")
     val buyingMode: String,
     @SerializedName("catalog_listing")
@@ -61,7 +61,7 @@ data class Body(
     @SerializedName("official_store_id")
     val officialStoreId: Any,
     @SerializedName("original_price")
-    val originalPrice: Any,
+    val originalPrice: Double,
     @SerializedName("parent_item_id")
     val parentItemId: String,
     @SerializedName("permalink")
@@ -69,7 +69,7 @@ data class Body(
     @SerializedName("pictures")
     val pictures: List<Picture>,
     @SerializedName("price")
-    val price: Int,
+    val price: Double,
     @SerializedName("sale_terms")
     val saleTerms: List<SaleTerm>,
     @SerializedName("secure_thumbnail")

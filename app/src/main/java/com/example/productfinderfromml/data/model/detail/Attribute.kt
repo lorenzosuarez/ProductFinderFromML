@@ -11,11 +11,11 @@ data class Attribute(
     @SerializedName("id")
     val id: String,
     @SerializedName("name")
-    val name: String,
+    val name: String  = "",
     @SerializedName("value_id")
     val valueId: String,
     @SerializedName("value_name")
-    val valueName: String,
+    val valueName: String = "",
     @SerializedName("value_struct")
     val valueStruct: ValueStruct,
     @SerializedName("values")

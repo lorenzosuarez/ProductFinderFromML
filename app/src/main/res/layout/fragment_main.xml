@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.productfinderfromml.presentation.MainViewModel" />
@@ -42,7 +41,7 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/searchContainer"
-                    app:strokeWidth="0.45dp"
+                    app:strokeWidth="0.5dp"
                     app:strokeColor="@color/teal_700"
                     app:cardCornerRadius="@dimen/common_radius"
                     android:layout_width="0dp"
@@ -73,7 +72,6 @@
                         app:queryBackground="@android:color/transparent" />
 
                 </com.google.android.material.card.MaterialCardView>
-
 
                 <TextView
                     android:layout_marginTop="5dp"
