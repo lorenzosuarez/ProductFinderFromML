@@ -1,7 +1,12 @@
 package com.example.productfinderfromml.ui
 
 import android.os.Bundle
-import android.view.*
+import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -9,12 +14,19 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
-import androidx.paging.flatMap
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.databinding.FragmentMainBinding
 import com.example.productfinderfromml.databinding.SortBottomSheetBinding
 import com.example.productfinderfromml.presentation.MainViewModel
+import com.example.productfinderfromml.ui.adapters.ReposLoadStateAdapter
+import com.example.productfinderfromml.ui.adapters.ResultAdapter
+import com.example.productfinderfromml.ui.adapters.SortAdapter
+import com.example.productfinderfromml.ui.details.DetailsFragment
 import com.example.productfinderfromml.utils.onQueryTextChanged
+import com.example.productfinderfromml.utils.snack
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -23,7 +35,7 @@ import kotlinx.coroutines.launch
 
 
 /**
- * Created by Lorenzo Suarez on 3/5/2021.
+ * Created by Lorenzo Suarez on 30/8/2021.
  */
 
 @ExperimentalPagingApi
@@ -31,27 +43,20 @@ import kotlinx.coroutines.launch
 class MainFragment : Fragment(R.layout.fragment_main) {
     private lateinit var binding: FragmentMainBinding
     private lateinit var mainPagingAdapter: ResultAdapter
-    private lateinit var sortBottomSheetBinding: SortBottomSheetBinding
+    private lateinit var bottomSheetBinding: SortBottomSheetBinding
     private lateinit var bottomSheetSort: BottomSheetDialog
     private lateinit var sort: String
-
-    private val viewModel by viewModels<MainViewModel>()
+    private val mViewModel by viewModels<MainViewModel>()
     private var searchJob: Job? = null
+    private val TAG = MainFragment::class.java.simpleName
+
+    companion object {
+        private const val START_POSITION = 0
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-
-    }
-
-    private fun search(query: String?, sort: String?) {
-        // Make sure we cancel the previous job before creating a new one
-        searchJob?.cancel()
-        searchJob = lifecycleScope.launch {
-            viewModel.searchRepo(query, pSortName = sort).collectLatest {
-                mainPagingAdapter.submitData(it)
-            }
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -65,28 +70,37 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding = FragmentMainBinding.bind(view)
         bottomSheetSort = BottomSheetDialog(requireContext())
 
-        sortBottomSheetBinding = DataBindingUtil.inflate(
+        binding.apply {
+            lifecycleOwner = this@MainFragment
+            viewModel = mViewModel
+        }
+
+        fragmentBindEvents()
+
+        bottomSheetBinding = DataBindingUtil.inflate(
             layoutInflater,
             R.layout.sort_bottom_sheet,
             null,
             false
         )
+        bottomSheetSort.setContentView(bottomSheetBinding.root)
+        bottomSheetBinding.apply {
+            viewModel = mViewModel
+        }
 
-        sortBottomSheetBinding.sortButton.setOnClickListener {
-            search(binding.searchView.query.toString(), sort)
+        bottomSheetBinding.sortButton.setOnClickListener {
+            if(binding.searchView.query.toString().isNotEmpty())
+                search(binding.searchView.query.toString(), sort)
+            else
+                binding.root.snack(getString(R.string.input_query))
+
             bottomSheetSort.cancel()
         }
 
-        sortBottomSheetBinding.viewModel = viewModel
-        sortBottomSheetBinding.filterList.adapter = SortAdapter(
+        bottomSheetBinding.sortList.adapter = SortAdapter(
             SortAdapter.OnClickListener { sort ->
                 this.sort = sort
             })
-
-        bottomSheetSort.setContentView(sortBottomSheetBinding.root)
-
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
 
         mainPagingAdapter = ResultAdapter(context = requireContext(), ResultAdapter.OnClickListener { item, imageView ->
             val extras = FragmentNavigatorExtras(
@@ -96,13 +110,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
             findNavController().navigate(action, extras)
         })
 
-        binding.items.adapter = mainPagingAdapter
+        initAdapter()
 
-        binding.searchView.onQueryTextChanged { value ->
-            search(value, null)
-        }
+
     }
-
 
     override fun onPrepareOptionsMenu(menu: Menu) {
         menu.findItem(R.id.myGalacticLeague).isVisible = true
@@ -121,6 +132,74 @@ class MainFragment : Fragment(R.layout.fragment_main) {
 
     override fun onResume() {
         super.onResume()
-        search(binding.searchView.query.toString(), null)
+        if (binding.searchView.query.toString().isNotEmpty())
+            search(binding.searchView.query.toString(), null)
+    }
+
+    private fun search(query: String?, sort: String?) {
+        searchJob?.cancel()
+        searchJob = lifecycleScope.launch {
+            mViewModel.searchRepo(query, pSortName = sort).collectLatest {
+                mainPagingAdapter.submitData(it)
+            }
+        }
+    }
+
+    private fun fragmentBindEvents() {
+        with(binding) {
+            items.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    fab.isVisible = dy < START_POSITION
+                    val scrollPosition =
+                        (recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition()
+                    items.isEnabled = scrollPosition == START_POSITION
+                }
+            })
+
+            fab.setOnClickListener {
+                items.smoothScrollToPosition(START_POSITION)
+            }
+
+            searchView.onQueryTextChanged { value ->
+                search(value, null)
+            }
+        }
+    }
+
+    private fun initAdapter() {
+        binding.items.adapter = mainPagingAdapter.withLoadStateHeaderAndFooter(
+            header = ReposLoadStateAdapter { mainPagingAdapter.retry() },
+            footer = ReposLoadStateAdapter { mainPagingAdapter.retry() }
+        )
+
+        mainPagingAdapter.addLoadStateListener { loadState ->
+            // show empty list
+            val isListEmpty = loadState.refresh is LoadState.NotLoading && mainPagingAdapter.itemCount == 0
+            showEmptyList(isListEmpty)
+
+            binding.items.isVisible = loadState.source.refresh is LoadState.NotLoading
+            binding.progressBar.isVisible = loadState.source.refresh is LoadState.Loading
+
+            val errorState = loadState.source.append as? LoadState.Error
+                ?: loadState.source.prepend as? LoadState.Error
+                ?: loadState.append as? LoadState.Error
+                ?: loadState.prepend as? LoadState.Error
+                ?: loadState.refresh as? LoadState.Error
+
+            errorState?.let {
+                binding.container.snack("Error ${it.error}")
+                Log.e(TAG, "LoadStateError : ${it.error}")
+            }
+        }
+    }
+
+    private fun showEmptyList(show: Boolean) {
+        if (show) {
+            binding.emptyList.visibility = View.VISIBLE
+            binding.items.visibility = View.GONE
+        } else {
+            binding.emptyList.visibility = View.GONE
+            binding.items.visibility = View.VISIBLE
+        }
     }
 }

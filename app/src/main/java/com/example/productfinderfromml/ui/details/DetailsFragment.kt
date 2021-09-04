@@ -3,6 +3,7 @@ package com.example.productfinderfromml.ui.details
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -18,14 +19,14 @@ import com.example.productfinderfromml.databinding.ItemDetailBinding
 import com.example.productfinderfromml.presentation.DetailViewModel
 import com.example.productfinderfromml.presentation.DetailViewModel.Status
 import com.example.productfinderfromml.ui.details.viewpager.CarouselTransformer
-import com.example.productfinderfromml.ui.details.viewpager.ViewPagerAdapter
+import com.example.productfinderfromml.ui.adapters.ViewPagerAdapter
 import com.example.productfinderfromml.utils.slideDown
 import com.example.productfinderfromml.utils.slideUp
 import dagger.hilt.android.AndroidEntryPoint
 
 
 /**
- * Created by Lorenzo Suarez on 3/5/2021.
+ * Created by Lorenzo Suarez on 30/8/2021.
  */
 
 @ExperimentalPagingApi
@@ -33,18 +34,14 @@ import dagger.hilt.android.AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var binding: FragmentDetailsBinding
-    private val viewModel by viewModels<DetailViewModel>()
+    private val mViewModel by viewModels<DetailViewModel>()
+    private val TAG = DetailsFragment::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
 
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.main_menu, menu)
     }
 
     override fun onCreateView(
@@ -59,16 +56,21 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         val itemReceived: Results = args.item
 
         binding = FragmentDetailsBinding.bind(view)
-        binding.image.load(itemReceived.thumbnail)
-        binding.lifecycleOwner = this
-        binding.viewModel = viewModel
-        binding.item = itemReceived
+        binding.apply {
+            lifecycleOwner = this@DetailsFragment
+            viewModel = mViewModel
+            //Product thumbnail
+            image.load(itemReceived.thumbnail)
+            //Arg item
+            item = itemReceived
+            //ViewPager
+            viewPager.adapter = ViewPagerAdapter()
+            viewPager.offscreenPageLimit = 1
+            viewPager.setPageTransformer(CarouselTransformer(requireContext()))
+        }
 
-        binding.viewPager.adapter = ViewPagerAdapter()
-
-        viewModel.getProductDetail(arrayOf(itemReceived.id))
-
-        viewModel.status.observe(viewLifecycleOwner, fun(status: Status) {
+        mViewModel.getProductDetail(arrayOf(itemReceived.id))
+        mViewModel.status.observe(viewLifecycleOwner, fun(status: Status) {
             with(binding) {
                 when (status) {
                     Status.STATUS1 -> linear.slideDown(viewGroup = containerAttributes)
@@ -78,20 +80,18 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         })
 
         binding.button.setOnClickListener {
-            when (viewModel.status.value) {
-                Status.STATUS1 -> viewModel.setStatus(Status.STATUS2)
-                Status.STATUS2 -> viewModel.setStatus(Status.STATUS1)
+            when (mViewModel.status.value) {
+                Status.STATUS1 -> mViewModel.setStatus(Status.STATUS2)
+                Status.STATUS2 -> mViewModel.setStatus(Status.STATUS1)
             }
         }
-
-        viewModel.productDetail.observe(viewLifecycleOwner, { result ->
+        mViewModel.productDetail.observe(viewLifecycleOwner, { result ->
             when (result) {
-                is Resource.Loading -> {
-                }
-                is Resource.Success -> {
+                is Resource.Loading -> { Log.i(TAG, "ProductDetail observe : Loading") }
+                is Resource.Success -> { Log.i(TAG, "ProductDetail observe :Success ${result.data}")
                     binding.shimmer.hideShimmer()
                     if (result.data.isNotEmpty()) {
-                        viewModel.updatePictures(result.data.first().body.pictures)
+                        mViewModel.updatePictures(result.data.first().body.pictures)
                         binding.productDetail = result.data.first()
 
                         result.data.map { d ->
@@ -115,23 +115,12 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
                     }
                 }
 
-                is Resource.Failure -> {
-                    val l = 1
-                }
+                is Resource.Failure -> { Log.i(TAG, "ProductDetail observe : Failure ${result.exception.message}") }
             }
         })
-
-        binding.viewPager.offscreenPageLimit = 1
-        binding.viewPager.setPageTransformer(CarouselTransformer(requireContext()))
         binding.goToML.setOnClickListener {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(itemReceived.permalink)))
         }
-    }
-
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        menu.findItem(R.id.myGalacticLeague).isVisible = false
-
-        super.onPrepareOptionsMenu(menu)
     }
 }
 

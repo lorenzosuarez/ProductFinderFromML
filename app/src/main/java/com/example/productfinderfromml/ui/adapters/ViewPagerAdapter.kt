@@ -1,4 +1,4 @@
-package com.example.productfinderfromml.ui.details.viewpager
+package com.example.productfinderfromml.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
-import coil.request.ImageRequest
-import coil.request.ImageResult
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.data.model.detail.Picture
 import com.example.productfinderfromml.databinding.ItemPageBinding

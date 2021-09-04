@@ -10,20 +10,22 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.appbar.AppBarLayout
-            app:elevation="0dp"
             android:layout_width="match_parent"
+            android:layout_marginVertical="@dimen/margin_extra_small"
             android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
             android:backgroundTint="@android:color/transparent"
-            android:background="@android:color/transparent">
+            app:elevation="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                app:layout_scrollFlags="scroll|enterAlways"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|enterAlways">
 
                 <androidx.constraintlayout.widget.Guideline
                     android:id="@+id/startGuideline"
@@ -41,26 +43,25 @@
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/searchContainer"
-                    app:strokeWidth="0.5dp"
-                    app:strokeColor="@color/teal_700"
-                    app:cardCornerRadius="@dimen/common_radius"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/margin_extra_small"
+                    app:cardCornerRadius="@dimen/common_radius"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@id/endGuideline"
                     app:layout_constraintStart_toStartOf="@id/startGuideline"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.1"
-                    android:layout_margin="5dp">
+                    app:strokeColor="@color/teal_700"
+                    app:strokeWidth="0.5dp">
 
                     <androidx.appcompat.widget.SearchView
-                        app:layout_constraintVertical_bias="0"
                         android:id="@+id/searchView"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:backgroundTint="@android:color/transparent"
                         android:fontFamily="@font/nunito_sans_regular"
-                        android:hint="string/search_persons"
+                        android:hint="@string/search_product"
                         android:imeOptions="actionSearch"
                         android:inputType="textCapWords"
                         android:padding="5dp"
@@ -69,19 +70,21 @@
                         android:theme="@style/SearchViewStyle"
                         app:closeIcon="@drawable/ic_cancel"
                         app:endIconMode="clear_text"
+                        app:layout_constraintVertical_bias="0"
                         app:queryBackground="@android:color/transparent" />
 
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:id="@+id/result"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
                     android:fontFamily="@font/nunito_sans_regular"
                     android:hint="@string/without_results"
                     android:textSize="10sp"
+                    android:visibility="gone"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
@@ -95,16 +98,52 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/items"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/endGuideline"
             app:layout_constraintStart_toStartOf="@id/startGuideline"
             app:layout_constraintTop_toBottomOf="@+id/searchContainer"
             tools:listitem="@layout/item_row" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
+
+        <TextView
+            android:id="@+id/emptyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_results"
+            android:textColor="@color/teal_200"
+            android:textSize="@dimen/text_size_normal"
+            android:visibility="visible"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/endGuideline"
+            app:layout_constraintStart_toStartOf="@id/startGuideline"
+            app:layout_constraintTop_toBottomOf="@+id/searchContainer" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab"
+            style="@style/AppFloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/fab_content_desc"
+            android:visibility="gone"
+            app:srcCompat="@drawable/ic_up_arrow" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

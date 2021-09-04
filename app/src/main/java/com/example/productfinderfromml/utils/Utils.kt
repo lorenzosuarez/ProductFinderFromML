@@ -4,11 +4,13 @@ import android.content.Context
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.transition.Slide
 import androidx.transition.Transition
+import com.google.android.material.snackbar.Snackbar
 import java.text.DecimalFormat
 
 
@@ -71,6 +73,10 @@ fun Context.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
 
-fun Fragment.showToast(message: String, duration: Int = Toast.LENGTH_SHORT) {
-    requireContext().showToast(message, duration)
+fun View.snack(message: String, length: Int = Snackbar.LENGTH_LONG) {
+    val snack = Snackbar.make(this, message, length)
+    val textView = snack.view.findViewById(com.google.android.material.R.id.snackbar_text) as TextView
+    textView.textSize = 18f
+    textView.textAlignment = View.TEXT_ALIGNMENT_CENTER
+    snack.show()
 }

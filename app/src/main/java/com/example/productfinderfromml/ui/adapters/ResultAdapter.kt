@@ -1,7 +1,8 @@
-package com.example.productfinderfromml.ui
+package com.example.productfinderfromml.ui.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,6 +16,7 @@ import com.example.productfinderfromml.R
 import com.example.productfinderfromml.application.AppConstants
 import com.example.productfinderfromml.data.model.item.Results
 import com.example.productfinderfromml.databinding.ItemRowBinding
+import com.example.productfinderfromml.presentation.DetailViewModel
 import com.example.productfinderfromml.utils.priceFormat
 import com.example.productfinderfromml.utils.showIf
 
@@ -22,6 +24,7 @@ class ResultAdapter(private val context: Context, private val onClickListener: O
     PagingDataAdapter<Results, ResultAdapter.ItemsViewHolder>(
         ItemsDiffCallback()
     ) {
+    private val TAG = ResultAdapter::class.java.simpleName
 
     override fun onBindViewHolder(holder: ItemsViewHolder, position: Int) {
         val data = getItem(position)
@@ -68,7 +71,7 @@ class ResultAdapter(private val context: Context, private val onClickListener: O
                         }
                         card.setOnClickListener { onClickListener.onClick(data, item.image) }
                     }
-                }
+                } else Log.i(TAG, "No ´data´ $item")
             }
 
 

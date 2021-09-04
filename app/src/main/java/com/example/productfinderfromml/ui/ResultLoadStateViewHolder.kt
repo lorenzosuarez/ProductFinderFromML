@@ -6,10 +6,10 @@ import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.RecyclerView
 import com.example.productfinderfromml.R
-import com.example.productfinderfromml.databinding.ReposLoadStateFooterViewItemBinding
+import com.example.productfinderfromml.databinding.FooterViewItemBinding
 
-class ReposLoadStateViewHolder(
-    private val binding: ReposLoadStateFooterViewItemBinding,
+class ResultLoadStateViewHolder(
+    private val binding: FooterViewItemBinding,
     retry: () -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
@@ -27,11 +27,11 @@ class ReposLoadStateViewHolder(
     }
 
     companion object {
-        fun create(parent: ViewGroup, retry: () -> Unit): ReposLoadStateViewHolder {
+        fun create(parent: ViewGroup, retry: () -> Unit): ResultLoadStateViewHolder {
             val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.repos_load_state_footer_view_item, parent, false)
-            val binding = ReposLoadStateFooterViewItemBinding.bind(view)
-            return ReposLoadStateViewHolder(binding, retry)
+                    .inflate(R.layout.footer_view_item, parent, false)
+            val binding = FooterViewItemBinding.bind(view)
+            return ResultLoadStateViewHolder(binding, retry)
         }
     }
 }

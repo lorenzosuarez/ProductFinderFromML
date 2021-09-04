@@ -1,4 +1,4 @@
-package com.example.productfinderfromml.ui
+package com.example.productfinderfromml.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

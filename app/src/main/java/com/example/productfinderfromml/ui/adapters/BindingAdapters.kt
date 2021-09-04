@@ -1,4 +1,4 @@
-package com.example.productfinderfromml.ui
+package com.example.productfinderfromml.ui.adapters
 
 import android.annotation.SuppressLint
 import android.graphics.Paint
@@ -15,7 +15,6 @@ import com.example.productfinderfromml.data.model.detail.Picture
 import com.example.productfinderfromml.data.model.detail.ProductDetail
 import com.example.productfinderfromml.data.model.detail.SellerAddress
 import com.example.productfinderfromml.presentation.DetailViewModel
-import com.example.productfinderfromml.ui.details.viewpager.ViewPagerAdapter
 import com.example.productfinderfromml.utils.priceFormat
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.chip.Chip

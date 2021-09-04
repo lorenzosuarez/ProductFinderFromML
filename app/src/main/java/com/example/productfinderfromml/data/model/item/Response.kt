@@ -3,7 +3,7 @@ package com.example.productfinderfromml.data.model.item
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class Response(
     @SerializedName("available_filters")

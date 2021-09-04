@@ -12,4 +12,5 @@
     <color name="searchBackground">#f8f8f8</color>
     <color name="shimmer_placeholder">#dddddd</color>
     <color name="blue">#2196F3</color>
+    <color name="red">#ffff4444</color>
 </resources>

@@ -1,13 +1,18 @@
 package com.example.productfinderfromml.presentation
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.PagingData
+import androidx.paging.PagingSource
 import androidx.paging.cachedIn
 import com.example.productfinderfromml.data.model.item.AvailableSort
 import com.example.productfinderfromml.data.model.item.Results
 import com.example.productfinderfromml.domain.Repository
+import com.example.productfinderfromml.ui.adapters.ResultAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 /**
@@ -17,13 +22,11 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val repository: Repository
-
 ) : ViewModel() {
     private var currentQueryValue: String? = null
     private var _currentSearchResult: Flow<PagingData<Results>>? = null
-
-    val currentSearchResult : LiveData<PagingData<Results>>?
-        get() = _currentSearchResult?.asLiveData()
+    private val _spinner = MutableStateFlow(true)
+    private val TAG = MainViewModel::class.java.simpleName
 
     private val _lastQuery = MutableLiveData<String>()
 
@@ -33,9 +36,9 @@ class MainViewModel @Inject constructor(
 
     init {
         val listPair = listOf(
-            AvailableSort(id = "relevance", name = "AAA precio") to true,
-            AvailableSort(id = "price_asc", name = "BBB precio") to false,
-            AvailableSort(id = "price_desc", name = "CCC precio") to false
+            AvailableSort(id = "relevance", name = "Más relevantes") to true,
+            AvailableSort(id = "price_asc", name = "Menor precio") to false,
+            AvailableSort(id = "price_desc", name = "Mayor precio") to false
         )
         _sortList.value = listPair
     }
@@ -49,6 +52,8 @@ class MainViewModel @Inject constructor(
             return lastResult
         }
         currentQueryValue = queryString
+        Log.i(TAG, "Perform search: [$queryString)], Sort : [$sortId]")
+
         val newResult: Flow<PagingData<Results>> = repository.getSearchResultStream(_lastQuery.value!!, sortId)
             .cachedIn(viewModelScope)
         _currentSearchResult = newResult

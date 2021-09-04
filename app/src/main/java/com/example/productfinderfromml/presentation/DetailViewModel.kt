@@ -1,5 +1,6 @@
 package com.example.productfinderfromml.presentation
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.productfinderfromml.R
 import com.example.productfinderfromml.core.Resource
@@ -20,6 +21,8 @@ class DetailViewModel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
+    private val TAG = DetailViewModel::class.java.simpleName
+
     private val _productDetail = MutableLiveData<Resource<List<ProductDetail>>>()
     val productDetail: LiveData<Resource<List<ProductDetail>>>
         get() = _productDetail
@@ -34,6 +37,7 @@ class DetailViewModel @Inject constructor(
             try {
                 _productDetail.value = repository.getProductDetail(ids.joinToString(separator = ","))
             } catch (e: Exception) {
+                Log.e(TAG, e.message ?: "Exception")
                 _productDetail.value = Resource.Failure(e)
             }
         }

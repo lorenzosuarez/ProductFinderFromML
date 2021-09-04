@@ -40,6 +40,6 @@ class DefaultRepository @Inject constructor(
     }
 
     companion object {
-        const val NETWORK_PAGE_SIZE = 3
+        const val NETWORK_PAGE_SIZE = 10
     }
 }
