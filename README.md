@@ -20,7 +20,9 @@ This is a clean architecture app example built with
 | Search Screen Light  | Search Screen Light  |
 | ![3](screen_captures/device-light-1.png?raw=true) | ![4](screen_captures/device-light-2.png?raw=true)
 
-![Alt Text](screen_captures/ml-challenge.gif?raw=true)
+<p align="center">
+  <img src="screen_captures/ml-challenge.gif" />
+</p>
  
 * Created by Lorenzo Suarez 
 
